@@ -1,0 +1,61 @@
+<!-- templates/polls/vote_list.html -->
+{% extends 'layout/main_layout.html' %}
+{% block title%}질문목록{% endblock title%}
+{% block contents %}
+<h1>설문 질문 목록</h1>
+<ul class="list-group">
+    {# question_list: QuerySet[Question] - Iterable #}
+    {% for question in question_list %}
+        <li class="list-group-item list-group-item-action">
+            <!--a href="/polls/vote_form/{{question.pk}}"-->
+            <a href="{% url 'polls:vote_form' question.pk %}" class="btn">
+                {{question.pk}}. {{question.question_text | truncatewords:3 }} - 
+                {{question.pub_date | date:'Y-m-d H'}}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+<!-- --------------페이징 처리 - 페이지번호 링크 ------------------- -->
+<ul class="pagination mt-3">
+    {# 이전 페이지 그룹으로 이동#}
+    {% if has_previous %}
+        <li class="page-item"> 
+            <a href="{% url 'polls:vote_list' %}?page={{previous_page_number}}" class="page-link">
+                이전
+            </a>
+        </li>
+    {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">이전</span>
+        </li>
+    {% endif %}
+
+    {# 현재 페이지 그룹의 페이지들 링크 - 현재 페이지인경우 link 처리 안함. #}
+    {% for page in page_range %}
+        {% if page == question_list.number %}
+            <li class="page-item active">
+                <span class="page-link">{{page}}</span>
+            </li>
+        {% else %}
+            <li class="page-item">
+                <a href="{% url 'polls:vote_list' %}?page={{page}}" class="page-link">
+                    {{page}}
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+    {# 다음 페이지 그룹으로 이동#}
+    {% if has_next %}
+        <li class="page-item"> 
+            <a href="{% url 'polls:vote_list' %}?page={{next_page_number}}" class="page-link">
+                다음
+            </a>
+        </li>
+    {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">다음</span>
+        </li>
+    {% endif %}
+</ul>
+{% endblock contents %}
