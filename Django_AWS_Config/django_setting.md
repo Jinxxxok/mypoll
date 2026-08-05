@@ -133,4 +133,4 @@
         sudo systemctl reload nginx         # nginx 서버 재시작
         ```
 
-        ..
+        ....
