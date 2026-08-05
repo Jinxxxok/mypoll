@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-49h57!ukv14k3z6ghgsn3s!)szv%+4e)f++*g1=8k@nht_$up2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -79,13 +81,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 import os
 
 DATABASES = {
-    'default': {
+    'sqlite': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     },
-    'mysql':{
+    'default':{
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DATABASE_NAEM'),   # 연결할 Database의 이름
+        'NAME': os.getenv('DATABASE_NAME'),   # 연결할 Database의 이름
         'USER': os.getenv('DATABASE_USER'),  # 계정(username)
         'PASSWORD': os.getenv('DATABASE_PASSWORD'), # 패스워드
         'HOST': os.getenv('DATABASE_HOST'),    # Database서버 컴퓨터의 ip/domain. AWS RDS 엔드포인트
@@ -139,12 +141,12 @@ LOGIN_URL = "/account/login"
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"] # base_dir/static 아래에도 static파일들이 있음
-STATIC_ROOT = BASE_DIR / "static_root"
+STATIC_ROOT = "/var/www/mypoll_chat/static/"
 # python manage.py collectstatic
 ## 모든 static 디렉토리에 있는 static 파일들을 STATIC_ROOT 디렉토리로 복사한다.
 
 ###########################################
 # 파일 업로드 설정
 ###########################################
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = "/var/www/mypoll_chat/media/"
 MEDIA_URL = "/media/"
