@@ -132,3 +132,5 @@
         sudo nginx -t                       # 설정파일 문법 오류 체크
         sudo systemctl reload nginx         # nginx 서버 재시작
         ```
+
+        ..
